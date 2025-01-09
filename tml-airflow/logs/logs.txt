@@ -12286,3 +12286,4 @@ origin	https://<personal access token hidden>@github.com/rmousavi-elasta/raspber
 [INFO 2025-01-09_14:47:49] Preprocessing DAG in tml_system_step_4_kafka_preprocess_dag-myawesometmlsolutionml-3f10.py
 [INFO 2025-01-09_14:47:51] Visualization DAG in tml_system_step_7_kafka_visualization_dag-myawesometmlsolutionml-3f10.py
 [INFO 2025-01-09_14:48:05] Docker DAG in tml_system_step_8_deploy_solution_to_docker_dag-myawesometmlsolutionml-3f10.py
+[INFO 2025-01-09_14:49:28] {'name': ['Project with slug "myawesometmlsolutionml-3f10" already exists.']}
