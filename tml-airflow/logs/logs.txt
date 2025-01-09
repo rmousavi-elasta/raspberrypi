@@ -12217,3 +12217,4 @@ origin	https://<personal access token hidden>@github.com/rmousavi-elasta/raspber
 [INFO 2025-01-09_14:24:08] Deleting topic iot-preprocess in tml_system_step_2_kafka_createtopic_dag-myawesometmlsolution-3f10.py
 [INFO 2025-01-09_14:24:11] Deleting topic iot-preprocess2 in tml_system_step_2_kafka_createtopic_dag-myawesometmlsolution-3f10.py
 [INFO 2025-01-09_14:24:12] Deleting topic ml-data in tml_system_step_2_kafka_createtopic_dag-myawesometmlsolution-3f10.py
+[INFO 2025-01-09_14:24:14] Deleting topic prediction-data in tml_system_step_2_kafka_createtopic_dag-myawesometmlsolution-3f10.py
