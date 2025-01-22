@@ -12287,3 +12287,20 @@ origin	https://<personal access token hidden>@github.com/rmousavi-elasta/raspber
 [INFO 2025-01-09_14:47:51] Visualization DAG in tml_system_step_7_kafka_visualization_dag-myawesometmlsolutionml-3f10.py
 [INFO 2025-01-09_14:48:05] Docker DAG in tml_system_step_8_deploy_solution_to_docker_dag-myawesometmlsolutionml-3f10.py
 [INFO 2025-01-09_14:49:28] {'name': ['Project with slug "myawesometmlsolutionml-3f10" already exists.']}
+[INFO 2025-01-22_17:05:27] TML Solution Studio Started: DOCKERUSERNAME=rmousavi, GITUSERNAME=rmousavi-elasta, GITREPOURL=https://github.com/rmousavi-elasta/raspberrypi.git, AIRFLOWPORT=9000
+[INFO 2025-01-22_17:05:27] TML Solution Studio: Docker Login Status: Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized: incorrect username or password
+[INFO 2025-01-22_17:05:27] TML Solution Studio: Github Config Status: user.email=rmousavi-elasta@email
+user.name=rmousavi-elasta
+safe.directory=/raspberrypi
+pull.rebase=true
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=https://github.com/rmousavi-elasta/raspberrypi.git
+remote.origin.fetch=+refs/heads/main:refs/remotes/origin/main
+remote.origin.pushurl=https://<personal access token hidden>@github.com/rmousavi-elasta/raspberrypi.git
+branch.main.remote=origin
+branch.main.merge=refs/heads/main
+[INFO 2025-01-22_17:05:27] TML Solution Studio: Github Remote Status: origin	https://github.com/rmousavi-elasta/raspberrypi.git (fetch)
+origin	https://<personal access token hidden>@github.com/rmousavi-elasta/raspberrypi.git (push)
