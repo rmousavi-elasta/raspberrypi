@@ -12411,3 +12411,4 @@ branch.main.merge=refs/heads/main
 origin	https://<personal access token hidden>@github.com/rmousavi-elasta/raspberrypi.git (push)
 [INFO 2025-01-22_18:06:54] Deleting topic cisco-network-mainstream in tml_system_step_2_kafka_createtopic_dag-cybersecuritywithprivategpt-3f10.py
 [INFO 2025-01-22_18:06:55] Deleting topic cisco-network-preprocess in tml_system_step_2_kafka_createtopic_dag-cybersecuritywithprivategpt-3f10.py
+[INFO 2025-01-22_18:06:56] Deleting topic ml-data in tml_system_step_2_kafka_createtopic_dag-cybersecuritywithprivategpt-3f10.py
