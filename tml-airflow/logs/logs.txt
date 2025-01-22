@@ -12382,3 +12382,4 @@ origin	https://<personal access token hidden>@github.com/rmousavi-elasta/raspber
 [INFO 2025-01-22_17:35:45] {'name': ['Project with slug "cybersecuritywithprivategpt-3f10" already exists.']}
 [INFO 2025-01-22_17:50:48] Deleting topic iot-raw-data in tml_system_step_2_kafka_createtopic_dag-iotsolution-restapi-3f10.py
 [INFO 2025-01-22_17:50:49] Deleting topic iot-preprocess in tml_system_step_2_kafka_createtopic_dag-iotsolution-restapi-3f10.py
+[INFO 2025-01-22_17:50:50] Deleting topic iot-preprocess2 in tml_system_step_2_kafka_createtopic_dag-iotsolution-restapi-3f10.py
