@@ -12387,3 +12387,4 @@ origin	https://<personal access token hidden>@github.com/rmousavi-elasta/raspber
 [INFO 2025-01-22_17:50:52] Deleting topic prediction-data in tml_system_step_2_kafka_createtopic_dag-iotsolution-restapi-3f10.py
 [INFO 2025-01-22_17:50:53] Deleting topic cisco-network-privategpt in tml_system_step_2_kafka_createtopic_dag-iotsolution-restapi-3f10.py
 [INFO 2025-01-22_17:51:01] MQTT producing DAG in tml_read_MQTT_step_3_kafka_producetotopic_dag-iotsolution-restapi-3f10.py
+[ERROR 2025-01-22_17:51:02] ERROR: Cannot connect to MQTT broker in tml_read_MQTT_step_3_kafka_producetotopic_dag-iotsolution-restapi-3f10.py - invalid literal for int() with base 10: ''
