@@ -30,18 +30,18 @@ default_args = {
   'deploy' : '1', # <<< *** do not modofy
   'modelruns': '100', # <<< *** Change as needed      
   'offset' : '-1', # <<< *** Do not modify
-  'islogistic' : '0',  # <<< *** Change as needed, 1=logistic, 0=not logistic
+  'islogistic' : '1',  # <<< *** Change as needed, 1=logistic, 0=not logistic
   'networktimeout' : '600', # <<< *** Change as needed      
   'modelsearchtuner' : '90', # <<< *This parameter will attempt to fine tune the model search space - A number close to 100 means you will have fewer models but their predictive quality will be higher.      
-  'dependentvariable' : '', # <<< *** Change as needed, 
-  'independentvariables': '', # <<< *** Change as needed, 
-  'rollbackoffsets' : '300', # <<< *** Change as needed, 
+  'dependentvariable' : 'failure', # <<< *** Change as needed, 
+  'independentvariables': 'Power_preprocessed_AnomProb', # <<< *** Change as needed, 
+  'rollbackoffsets' : '1000', # <<< *** Change as needed, 
   'consumeridtrainingdata2': '', # leave blank
   'partition_training' : '',  # leave blank
   'consumefrom' : '',  # leave blank
   'topicid' : '-1',  # leave as is
-  'fullpathtotrainingdata' : '/Viper-ml/viperlogs/<choose foldername>',  #  # <<< *** Change as needed - add name for foldername that stores the training datasets
-  'processlogic' : '',  # <<< *** Change as needed, i.e. classification_name=failure_prob:Voltage_preprocessed_AnomProb=55,n:Current_preprocessed_AnomProb=55,n
+  'fullpathtotrainingdata' : '/Viper-ml/viperlogs/iotlogistic',  #  # <<< *** Change as needed - add name for foldername that stores the training datasets
+  'processlogic' : 'classification_name=failure_prob:Power_preprocessed_AnomProb=55,n',  # <<< *** Change as needed, i.e. classification_name=failure_prob:Voltage_preprocessed_AnomProb=55,n:Current_preprocessed_AnomProb=55,n
   'array' : '0',  # leave as is
   'transformtype' : '', # Sets the model to: log-lin,lin-log,log-log
   'sendcoefto' : '',  # you can send coefficients to another topic for further processing -- MUST BE SET IN STEP 2
@@ -174,11 +174,29 @@ def startml(**context):
        ti.xcom_push(key="{}_modelsearchtuner".format(sname), value="_{}".format(default_args['modelsearchtuner']))
        ti.xcom_push(key="{}_dependentvariable".format(sname), value=default_args['dependentvariable'])
        ti.xcom_push(key="{}_independentvariables".format(sname), value=default_args['independentvariables'])
-   
+
+       rollback=default_args['rollbackoffsets']
        if 'step5rollbackoffsets' in os.environ:
          ti.xcom_push(key="{}_rollbackoffsets".format(sname), value="_{}".format(os.environ['step5rollbackoffsets']))
+         rollback=os.environ['step5rollbackoffsets']
        else:  
          ti.xcom_push(key="{}_rollbackoffsets".format(sname), value="_{}".format(default_args['rollbackoffsets']))
+
+       processlogic=default_args['processlogic']
+       if 'step5processlogic' in os.environ:
+         ti.xcom_push(key="{}_processlogic".format(sname), value="{}".format(os.environ['step5processlogic']))
+         processlogic=os.environ['step5processlogic']
+       else:  
+         ti.xcom_push(key="{}_processlogic".format(sname), value="{}".format(default_args['processlogic']))
+
+       independentvariables=default_args['independentvariables']
+       if 'step5independentvariables' in os.environ:
+         ti.xcom_push(key="{}_independentvariables".format(sname), value="{}".format(os.environ['step5independentvariables']))
+         independentvariables=os.environ['step5independentvariables']
+       else:  
+         ti.xcom_push(key="{}_independentvariables".format(sname), value="{}".format(default_args['independentvariables']))
+
+  
        ti.xcom_push(key="{}_topicid".format(sname), value="_{}".format(default_args['topicid']))
        ti.xcom_push(key="{}_consumefrom".format(sname), value=default_args['consumefrom'])
        ti.xcom_push(key="{}_fullpathtotrainingdata".format(sname), value=default_args['fullpathtotrainingdata'])
@@ -187,7 +205,6 @@ def startml(**context):
        ti.xcom_push(key="{}_coeftoprocess".format(sname), value=default_args['coeftoprocess'])
        ti.xcom_push(key="{}_coefsubtopicnames".format(sname), value=default_args['coefsubtopicnames'])
        ti.xcom_push(key="{}_HPDEADDR".format(sname), value=HPDEADDR)
-       ti.xcom_push(key="{}_processlogic".format(sname), value=default_args['processlogic'])
 
        repo=tsslogging.getrepo() 
        if sname != '_mysolution_':
@@ -198,7 +215,7 @@ def startml(**context):
        wn = windowname('ml',sname,sd)     
        subprocess.run(["tmux", "new", "-d", "-s", "{}".format(wn)])
        subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "cd /Viper-ml", "ENTER"])
-       subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "python {} 1 {} {}{} {} {}{} {}".format(fullpath,VIPERTOKEN, HTTPADDR, VIPERHOST, VIPERPORT[1:], HPDEADDR, HPDEHOST, HPDEPORT[1:]), "ENTER"])        
+       subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "python {} 1 {} {}{} {} {}{} {} {} \"{}\" \"{}\"".format(fullpath,VIPERTOKEN, HTTPADDR, VIPERHOST, VIPERPORT[1:], HPDEADDR, HPDEHOST, HPDEPORT[1:],rollback,processlogic,independentvariables), "ENTER"])        
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -217,13 +234,19 @@ if __name__ == '__main__':
         VIPERPORT = sys.argv[4]
         HPDEHOST = sys.argv[5]
         HPDEPORT = sys.argv[6]
+        rollbackoffsets =  sys.argv[7]
+        default_args['rollbackoffsets'] = rollbackoffsets
+        processlogic =  sys.argv[8]
+        default_args['processlogic'] = processlogic
+        independentvariables =  sys.argv[9]
+        default_args['independentvariables'] = independentvariables
         
         tsslogging.locallogs("INFO", "STEP 5: Machine learning started")
     
         while True:
          try:     
           performSupervisedMachineLearning()
-          time.sleep(1)
+#          time.sleep(10)
          except Exception as e:
           tsslogging.locallogs("ERROR", "STEP 5: Machine Learning DAG in {} {}".format(os.path.basename(__file__),e))
           tsslogging.tsslogit("Machine Learning DAG in {} {}".format(os.path.basename(__file__),e), "ERROR" )                     

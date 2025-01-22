@@ -95,6 +95,21 @@ def generatedoc(**context):
     sname=context['ti'].xcom_pull(task_ids='step_1_solution_task_getparams',key="{}_solutionname".format(sd))
 
     kube=0
+    step9prompt=''
+    step9context=''
+    step9keyattribute=''
+    step9keyprocesstype=''
+    step9hyperbatch=''
+    step9vectordbcollectionname=''
+    step9concurrency=''
+    cudavisibledevices=''
+    step9docfolder=''
+    step9docfolderingestinterval=''
+    step9useidentifierinprompt=''
+    step5processlogic=''
+    step5independentvariables=''
+    step9searchterms=''
+
     if "KUBE" in os.environ:
           if os.environ["KUBE"] == "1":
              kube=1
@@ -308,6 +323,9 @@ def generatedoc(**context):
     modelsearchtuner = context['ti'].xcom_pull(task_ids='step_5_solution_task_ml',key="{}_modelsearchtuner".format(sname))
     dependentvariable = context['ti'].xcom_pull(task_ids='step_5_solution_task_ml',key="{}_dependentvariable".format(sname))
     independentvariables = context['ti'].xcom_pull(task_ids='step_5_solution_task_ml',key="{}_independentvariables".format(sname))
+    if independentvariables:
+      step5independentvariables = independentvariables
+
     rollbackoffsets = context['ti'].xcom_pull(task_ids='step_5_solution_task_ml',key="{}_rollbackoffsets".format(sname))
     topicid = context['ti'].xcom_pull(task_ids='step_5_solution_task_ml',key="{}_topicid".format(sname))
     consumefrom = context['ti'].xcom_pull(task_ids='step_5_solution_task_ml',key="{}_consumefrom".format(sname))
@@ -317,7 +335,9 @@ def generatedoc(**context):
     coeftoprocess = context['ti'].xcom_pull(task_ids='step_5_solution_task_ml',key="{}_coeftoprocess".format(sname))
     coefsubtopicnames = context['ti'].xcom_pull(task_ids='step_5_solution_task_ml',key="{}_coefsubtopicnames".format(sname))
     processlogic = context['ti'].xcom_pull(task_ids='step_5_solution_task_ml',key="{}_processlogic".format(sname))
-
+    if processlogic:
+      step5processlogic = processlogic
+     
     if modelruns: 
         subprocess.call(["sed", "-i", "-e",  "s/--preprocess_data_topic--/{}/g".format(preprocess_data_topic), "/{}/docs/source/details.rst".format(sname)])
         subprocess.call(["sed", "-i", "-e",  "s/--ml_data_topic--/{}/g".format(ml_data_topic), "/{}/docs/source/details.rst".format(sname)])
@@ -431,17 +451,53 @@ def generatedoc(**context):
     penabletls = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_enabletls".format(sname))
     ppartition = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_partition".format(sname))
     pprompt = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_prompt".format(sname))
+    if pprompt:
+      step9prompt=pprompt
+
+    pdocfolder = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_docfolder".format(sname))
+    if pdocfolder:
+      step9docfolder=pdocfolder
+      doparse("/{}/docs/source/details.rst".format(sname), ["--docfolder--;{}".format(pdocfolder)])
+ 
+    pdocfolderingestinterval = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_docfolderingestinterval".format(sname))
+    if pdocfolderingestinterval:
+      step9docfolderingestinterval=pdocfolderingestinterval[1:]
+      doparse("/{}/docs/source/details.rst".format(sname), ["--docfolderingestinterval--;{}".format(step9docfolderingestinterval)])
+ 
+    puseidentifierinprompt = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_useidentifierinprompt".format(sname))
+    if puseidentifierinprompt:
+      step9useidentifierinprompt=puseidentifierinprompt[1:]
+      doparse("/{}/docs/source/details.rst".format(sname), ["--useidentifierinprompt--;{}".format(step9useidentifierinprompt)])
+ 
     pcontext = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_context".format(sname))
-    pjsonkeytogather = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_jsonkeytogather".format(sname))
+    if pcontext:
+       step9context=pcontext
+    pjsonkeytogather = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_jsonkeytogather".format(sname)) 
     pkeyattribute = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_keyattribute".format(sname))
+    if pkeyattribute:
+      step9keyattribute=pkeyattribute
     pconcurrency = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_concurrency".format(sname))
+    if pconcurrency:
+      step9concurrency=pconcurrency[1:]     
     pcuda = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_cuda".format(sname))
+    if pcuda:
+     cudavisibledevices=pcuda[1:]     
     pcollection = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_vectordbcollectionname".format(sname))    
+    if pcollection:
+      step9vectordbcollectionname=pcollection     
     pgpthost = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_pgpthost".format(sname))
     pgptport = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_pgptport".format(sname))
     pprocesstype = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_keyprocesstype".format(sname))
+    if pprocesstype:
+      step9keyprocesstype=pprocesstype 
     hyperbatch = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_hyperbatch".format(sname))
-          
+    if hyperbatch:
+      step9hyperbatch=hyperbatch[1:]
+    psearchterms = context['ti'].xcom_pull(task_ids='step_9_solution_task_ai',key="{}_searchterms".format(sname))
+    if psearchterms:
+      step9searchterms=psearchterms
+      doparse("/{}/docs/source/details.rst".format(sname), ["--searchterms--;{}".format(psearchterms)])
+     
     if len(CLIENTPORT) > 1:
       doparse("/{}/docs/source/operating.rst".format(sname), ["--clientport--;{}".format(TMLCLIENTPORT[1:])])
       dockerrun = """docker run -d -p {}:{} -p {}:{} -p {}:{} -p {}:{} \\
@@ -712,12 +768,18 @@ def generatedoc(**context):
       kcmd2=tsslogging.genkubeyaml(sname,containername,TMLCLIENTPORT[1:],solutionairflowport[1:],solutionvipervizport[1:],solutionexternalport[1:],
                        sd,os.environ['GITUSERNAME'],os.environ['GITREPOURL'],chipmain,os.environ['DOCKERUSERNAME'],
                        externalport[1:],kafkacloudusername,mqttusername,airflowport[1:],vipervizport[1:],
-                       step4maxrows,step4bmaxrows,step5rollbackoffsets,step6maxrows,step1solutiontitle,step1description,step9rollbackoffset,kubebroker,kafkabroker,PRODUCETYPE)
+                       step4maxrows,step4bmaxrows,step5rollbackoffsets,step6maxrows,step1solutiontitle,step1description,
+                       step9rollbackoffset,kubebroker,kafkabroker,PRODUCETYPE,step9prompt,step9context,step9keyattribute,step9keyprocesstype,
+                       step9hyperbatch[1:],step9vectordbcollectionname,step9concurrency[1:],cudavisibledevices[1:],
+                       step9docfolder,step9docfolderingestinterval[1:],step9useidentifierinprompt[1:],step5processlogic,step5independentvariables,step9searchterms)
     else: 
       kcmd2=tsslogging.genkubeyamlnoext(sname,containername,TMLCLIENTPORT[1:],solutionairflowport[1:],solutionvipervizport[1:],solutionexternalport[1:],
                        sd,os.environ['GITUSERNAME'],os.environ['GITREPOURL'],chipmain,os.environ['DOCKERUSERNAME'],
                        externalport[1:],kafkacloudusername,mqttusername,airflowport[1:],vipervizport[1:],
-                       step4maxrows,step4bmaxrows,step5rollbackoffsets,step6maxrows,step1solutiontitle,step1description,step9rollbackoffset,kubebroker,kafkabroker)
+                       step4maxrows,step4bmaxrows,step5rollbackoffsets,step6maxrows,step1solutiontitle,step1description,step9rollbackoffset,
+                       kubebroker,kafkabroker,step9prompt,step9context,step9keyattribute,step9keyprocesstype,
+                       step9hyperbatch[1:],step9vectordbcollectionname,step9concurrency[1:],cudavisibledevices[1:],
+                       step9docfolder,step9docfolderingestinterval[1:],step9useidentifierinprompt[1:],step5processlogic,step5independentvariables,step9searchterms)                 
 
     doparse("/{}/docs/source/kube.rst".format(sname), ["--solutionnamecode--;{}".format(kcmd2)])
 

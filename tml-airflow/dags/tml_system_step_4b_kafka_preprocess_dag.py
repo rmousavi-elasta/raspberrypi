@@ -160,8 +160,10 @@ def dopreprocessing(**context):
        ti.xcom_push(key="{}_identifier".format(sname), value=default_args['identifier'])
        ti.xcom_push(key="{}_jsoncriteria".format(sname), value=default_args['jsoncriteria'])
 
+       maxrows=default_args['maxrows']
        if 'step4bmaxrows' in os.environ:
          ti.xcom_push(key="{}_maxrows".format(sname), value="_{}".format(os.environ['step4bmaxrows']))         
+         maxrows=os.environ['step4bmaxrows']
        else:  
          ti.xcom_push(key="{}_maxrows".format(sname), value="_{}".format(default_args['maxrows']))
         
@@ -174,7 +176,7 @@ def dopreprocessing(**context):
        wn = windowname('preprocess2',sname,sd)     
        subprocess.run(["tmux", "new", "-d", "-s", "{}".format(wn)])
        subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "cd /Viper-preprocess2", "ENTER"])
-       subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "python {} 1 {} {}{} {}".format(fullpath,VIPERTOKEN,HTTPADDR,VIPERHOST,VIPERPORT[1:]), "ENTER"])        
+       subprocess.run(["tmux", "send-keys", "-t", "{}".format(wn), "python {} 1 {} {}{} {} {}".format(fullpath,VIPERTOKEN,HTTPADDR,VIPERHOST,VIPERPORT[1:],maxrows), "ENTER"])        
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -191,6 +193,9 @@ if __name__ == '__main__':
         VIPERTOKEN = sys.argv[2]
         VIPERHOST = sys.argv[3] 
         VIPERPORT = sys.argv[4]                  
+        maxrows =  sys.argv[5]
+        default_args['maxrows'] = maxrows
+         
         tsslogging.locallogs("INFO", "STEP 4b: Preprocessing 2 started")
 
         while True:
