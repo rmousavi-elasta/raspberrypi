@@ -12535,3 +12535,20 @@ origin	https://<personal access token hidden>@github.com/rmousavi-elasta/raspber
 [INFO 2025-01-23_18:15:09] Visualization DAG in tml_system_step_7_kafka_visualization_dag-myawesometmlsolution-3f10.py
 [INFO 2025-01-23_18:15:21] Docker DAG in tml_system_step_8_deploy_solution_to_docker_dag-myawesometmlsolution-3f10.py
 [INFO 2025-01-23_18:23:16] {'name': ['Project with slug "myawesometmlsolution-3f10" already exists.']}
+[INFO 2025-01-23_18:39:45] TML Solution Studio Started: DOCKERUSERNAME=rmousavi, GITUSERNAME=rmousavi-elasta, GITREPOURL=https://github.com/rmousavi-elasta/raspberrypi.git, AIRFLOWPORT=9000
+[INFO 2025-01-23_18:39:46] TML Solution Studio: Docker Login Status: WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[INFO 2025-01-23_18:39:46] TML Solution Studio: Github Config Status: core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=https://github.com/rmousavi-elasta/raspberrypi.git
+remote.origin.fetch=+refs/heads/main:refs/remotes/origin/main
+remote.origin.pushurl=https://<personal access token hidden>@github.com/rmousavi-elasta/raspberrypi.git
+branch.main.remote=origin
+branch.main.merge=refs/heads/main
+[INFO 2025-01-23_18:39:46] TML Solution Studio: Github Remote Status: origin	https://github.com/rmousavi-elasta/raspberrypi.git (fetch)
+origin	https://<personal access token hidden>@github.com/rmousavi-elasta/raspberrypi.git (push)
