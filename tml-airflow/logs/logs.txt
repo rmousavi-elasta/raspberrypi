@@ -12493,3 +12493,4 @@ origin	https://<personal access token hidden>@github.com/rmousavi-elasta/raspber
 [INFO 2025-01-23_15:33:07] Preprocessing DAG in tml_system_step_4_kafka_preprocess_dag-cybersecuritywithprivategpt-3f10.py
 [INFO 2025-01-23_15:33:12] Visualization DAG in tml_system_step_7_kafka_visualization_dag-cybersecuritywithprivategpt-3f10.py
 [INFO 2025-01-23_15:33:26] PrivateGPT Step 9 DAG in tml_system_step_9_privategpt_qdrant_dag-cybersecuritywithprivategpt-3f10.py
+[INFO 2025-01-23_15:33:39] Docker DAG in tml_system_step_8_deploy_solution_to_docker_dag-cybersecuritywithprivategpt-3f10.py
